@@ -2,18 +2,28 @@ import numpy as np
 from methods.abstract_method import AbstractMethod
 
 
-class PassiveSearch(AbstractMethod):
-    prefix = 'Passive Search'
+class PassiveSearch:
+    prefix = 'Passive_Search'
 
-    def __init__(self, f=lambda x: x + 2 / x, a=0.5, b=3.5, epsilon=0.5):
-        super().__init__(f=f, a=a, b=b, epsilon=epsilon)
-        self.k = int((self.b - self.a) / self.epsilon)
+    def __init__(self, function, epsilon):
+        self.function = function
+        self.k = int((self.function.ub - self.function.lb) / epsilon)
+
+        self.iteration = 0
+        self.f_opt = np.inf
+        self.x_opt = None
+
+        self.history = np.array([])
 
     def get_min(self):
-        xs = np.array([self.a + (self.b - self.a) * i / self.k for i in range(self.k + 1)])
+        xs = np.array([self.function.lb + (self.function.ub - self.function.lb) * i / self.k
+                       for i in range(self.k + 1)])
         for x in xs:
-            value = self.f(x)
+            value = self.function.f(x)
             self.iteration += 1
+            self.history = np.append(self.history, value)
             if value < self.f_opt:
                 self.f_opt = value
                 self.x_opt = x
+            else:
+                break

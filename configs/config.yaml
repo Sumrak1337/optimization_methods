@@ -1,0 +1,14 @@
+seed: &seed 42
+
+functions:
+  - _target_: utils.functions.F1
+    seed: *seed
+  - _target_: utils.functions.F2
+    seed: *seed
+
+methods:
+  - _target_: methods.PassiveSearch
+    epsilon: 1e-3
+  - _target_: methods.Dichotomy
+    epsilon: 1e-6
+    delta: 1e-3
