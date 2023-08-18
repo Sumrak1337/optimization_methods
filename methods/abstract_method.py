@@ -2,6 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
+from utils.logger import get_logger
+
+
+log = get_logger(__name__)
+
 
 class AbstractMethod:
     """
@@ -31,9 +36,9 @@ class AbstractMethod:
         if self.x_opt is None:
             raise NotImplementedError("x_opt is undefined")
 
-        print(f"Number of function calls: {self.iteration}")
-        print(f"Min function value: {self.f_opt}")
-        print(f"Min x value: {self.x_opt}")
+        log.info(f"Number of function calls: {self.iteration}")
+        log.info(f"Min function value: {self.f_opt}")
+        log.info(f"Min x value: {self.x_opt}")
 
         colors = list(mcolors.TABLEAU_COLORS)
         x = np.linspace(self.a, self.b, 100)
